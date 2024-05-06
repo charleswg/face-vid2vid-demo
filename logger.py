@@ -4,11 +4,11 @@ import torch.nn.functional as F
 import imageio
 
 import os
-from skimage.draw import circle
+from skimage.draw import disk
 
 import matplotlib.pyplot as plt
 import collections
-
+diskshape = (4, 4)
 
 class Logger:
     def __init__(self, log_dir, checkpoint_freq=100, visualizer_params=None, zfill_num=8, log_file_name='log.txt'):
@@ -111,7 +111,8 @@ class Visualizer:
         kp_array = spatial_size * (kp_array + 1) / 2
         num_kp = kp_array.shape[0]
         for kp_ind, kp in enumerate(kp_array):
-            rr, cc = circle(kp[1], kp[0], self.kp_size, shape=image.shape[:2])
+            rr, cc = disk((kp[1], kp[0]), self.kp_size, shape=diskshape)
+            #rr, cc = circle(kp[1], kp[0], self.kp_size, shape=image.shape[:2])
             image[rr, cc] = np.array(self.colormap(kp_ind / num_kp))[:3]
         return image
 
