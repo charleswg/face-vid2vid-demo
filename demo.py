@@ -191,6 +191,7 @@ def make_animation(source_image, driving_video, generator, kp_detector, he_estim
             source = source.cuda()
         driving = torch.tensor(np.array(driving_video)[np.newaxis].astype(np.float32)).permute(0, 4, 1, 2, 3)
         kp_canonical = kp_detector(source)
+        kp_canonical = kp_detector(driving[:, :, 0])
         he_source = he_estimator(source)
         he_driving_initial = he_estimator(driving[:, :, 0])
 
